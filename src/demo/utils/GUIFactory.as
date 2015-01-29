@@ -41,10 +41,9 @@ public class GUIFactory {
                 var bitmap: Bitmap = child as Bitmap;
                 var bitmapName: String = getQualifiedClassName(bitmap.bitmapData);
                 newChild = new Image(assetManager.getTexture(bitmapName));
-            } else {
-                if (child is DisplayObjectContainer) {
-                    createView(parent, child as DisplayObjectContainer);
-                }
+            } else if (child is DisplayObjectContainer) {
+                newChild = new AbstractView();
+                createView(newChild as AbstractView, child as DisplayObjectContainer);
             }
             if (newChild) {
                 newChild.x = child.x;
