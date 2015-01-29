@@ -10,9 +10,12 @@ import flash.display.Bitmap;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Shape;
+import flash.text.TextField;
+import flash.text.TextFormat;
 
 import starling.display.Button;
 import starling.display.Image;
+import starling.text.TextField;
 import starling.utils.AssetManager;
 
 public class GUIFactory {
@@ -21,11 +24,6 @@ public class GUIFactory {
 
     public static function init(inAssetManager: AssetManager):void {
         assetManager = inAssetManager;
-    }
-
-    public static function createScreen(parent: AbstractView, screen: DisplayObjectContainer):AbstractView {
-        createView(parent, screen);
-        return parent;
     }
 
     public static function createView(parent: AbstractView, inView: DisplayObjectContainer):AbstractView {
@@ -38,9 +36,14 @@ public class GUIFactory {
                 var shape: Shape = child as Shape;
 //                throw new Error("shape without ");
             } else if (child is Bitmap) {
-                var bitmap: Bitmap = child as Bitmap;
-                var bitmapName: String = getQualifiedClassName(bitmap.bitmapData);
+                var bitmap:Bitmap = child as Bitmap;
+                var bitmapName:String = getQualifiedClassName(bitmap.bitmapData);
+                trace(bitmapName);
                 newChild = new Image(assetManager.getTexture(bitmapName));
+            } else if (child is flash.text.TextField) {
+                var textField: flash.text.TextField = child as flash.text.TextField;
+                var textFormat: TextFormat = textField.getTextFormat();
+                newChild = new starling.text.TextField(textField.width, textField.height, textField.text, textFormat.font, int(textFormat.size), int(textFormat.color), textFormat.bold);
             } else if (child is DisplayObjectContainer) {
                 newChild = new AbstractView();
                 createView(newChild as AbstractView, child as DisplayObjectContainer);

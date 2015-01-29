@@ -10,7 +10,7 @@ import gui.MainMenuScreen;
 public class MainMenuScreen extends Screen {
 
     public function MainMenuScreen() {
-        GUIFactory.createScreen(this, new gui.MainMenuScreen());
+        GUIFactory.createView(this, new gui.MainMenuScreen());
     }
 }
 }

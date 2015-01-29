@@ -8,7 +8,7 @@ import flash.events.Event;
 
 import starling.core.Starling;
 
-[SWF (frameRate=60, width=1080, height=1920, backgroundColor=0)]
+[SWF (frameRate=60, width=768, height=1024, backgroundColor=0)]
 public class Main extends Sprite {
 
     public function Main() {

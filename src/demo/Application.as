@@ -6,10 +6,10 @@ import demo.utils.GUIFactory;
 import demo.utils.view.Flipper;
 import demo.utils.view.Screen;
 import demo.view.MainMenuScreen;
+import demo.view.TeamPlayScreen;
 
 import flash.filesystem.File;
 
-import starling.display.Image;
 import starling.display.Sprite;
 import starling.display.Sprite3D;
 import starling.events.Event;
@@ -41,6 +41,7 @@ public class Application extends Sprite {
     private function ready():void {
         _stack = new <Screen>[];
         _stack.push(new MainMenuScreen());
+        _stack.push(new TeamPlayScreen());
 
         _flipper = new Flipper();
         addChild(_flipper);
