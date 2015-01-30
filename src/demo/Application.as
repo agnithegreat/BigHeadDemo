@@ -2,23 +2,20 @@
  * Created by kirillvirich on 29.01.15.
  */
 package demo {
-import demo.utils.GUIFactory;
 import demo.utils.view.Flipper;
 import demo.utils.components.Screen;
 import demo.view.MainMenuScreen;
 import demo.view.TeamPlayScreen;
 
-import flash.filesystem.File;
 import flash.utils.Dictionary;
 
 import starling.display.Sprite;
 import starling.events.Event;
-import starling.utils.AssetManager;
 
 public class Application extends Sprite {
 
     private var _screens: Dictionary;
-    private var _assets: AssetManager;
+//    private var _assets: AssetManager;
     private var _flipper: Flipper;
 
     private var _stack: Vector.<Screen>;
