@@ -38,7 +38,6 @@ public class GUIFactory {
             } else if (child is Bitmap) {
                 var bitmap:Bitmap = child as Bitmap;
                 var bitmapName:String = getQualifiedClassName(bitmap.bitmapData);
-                trace(bitmapName);
                 newChild = new Image(assetManager.getTexture(bitmapName));
             } else if (child is flash.text.TextField) {
                 var textField: flash.text.TextField = child as flash.text.TextField;

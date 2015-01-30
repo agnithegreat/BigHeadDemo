@@ -25,10 +25,10 @@ public class Application extends Sprite {
 
     private var _stack: Vector.<Screen>;
 
-    public function Application() {
+    public function start():void {
         _assets = new AssetManager();
-        _assets.enqueue(File.applicationDirectory.resolvePath("assets"));
         _assets.verbose = false;
+        _assets.enqueue(File.applicationDirectory.resolvePath("assets"));
         _assets.loadQueue(function (progress: Number):void {
             if (progress == 1) {
                 ready();
