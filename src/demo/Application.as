@@ -24,16 +24,18 @@ public class Application extends Sprite {
     private var _stack: Vector.<Screen>;
 
     public function start():void {
-        _assets = new AssetManager();
-        GUIFactory.init(_assets);
+//        _assets = new AssetManager();
+//        GUIFactory.init(_assets);
+//
+//        _assets.verbose = false;
+//        _assets.enqueue(File.applicationDirectory.resolvePath("assets"));
+//        _assets.loadQueue(function (progress: Number):void {
+//            if (progress == 1) {
+//                ready();
+//            }
+//        });
 
-        _assets.verbose = false;
-        _assets.enqueue(File.applicationDirectory.resolvePath("assets"));
-        _assets.loadQueue(function (progress: Number):void {
-            if (progress == 1) {
-                ready();
-            }
-        });
+        ready();
     }
 
     private function ready():void {
