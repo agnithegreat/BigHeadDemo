@@ -4,22 +4,20 @@
 package demo {
 import demo.utils.GUIFactory;
 import demo.utils.view.Flipper;
-import demo.utils.view.Screen;
+import demo.utils.components.Screen;
 import demo.view.MainMenuScreen;
 import demo.view.TeamPlayScreen;
 
 import flash.filesystem.File;
+import flash.utils.Dictionary;
 
 import starling.display.Sprite;
-import starling.display.Sprite3D;
 import starling.events.Event;
-import starling.events.Touch;
-import starling.events.TouchEvent;
-import starling.events.TouchPhase;
 import starling.utils.AssetManager;
 
 public class Application extends Sprite {
 
+    private var _screens: Dictionary;
     private var _assets: AssetManager;
     private var _flipper: Flipper;
 
@@ -27,6 +25,8 @@ public class Application extends Sprite {
 
     public function start():void {
         _assets = new AssetManager();
+        GUIFactory.init(_assets);
+
         _assets.verbose = false;
         _assets.enqueue(File.applicationDirectory.resolvePath("assets"));
         _assets.loadQueue(function (progress: Number):void {
@@ -34,14 +34,17 @@ public class Application extends Sprite {
                 ready();
             }
         });
-
-        GUIFactory.init(_assets);
     }
 
     private function ready():void {
+        _screens = new Dictionary();
+        _screens[MainMenuScreen] = new MainMenuScreen();
+        _screens[MainMenuScreen].addEventListener(MainMenuScreen.TEAMGAME, handleTouch);
+        _screens[TeamPlayScreen] = new TeamPlayScreen();
+
         _stack = new <Screen>[];
-        _stack.push(new MainMenuScreen());
-        _stack.push(new TeamPlayScreen());
+        _stack.push(_screens[MainMenuScreen]);
+        _stack.push(_screens[TeamPlayScreen]);
 
         _flipper = new Flipper();
         addChild(_flipper);
@@ -54,19 +57,16 @@ public class Application extends Sprite {
         _stack.push(page);
         _flipper.front = page;
         _flipper.reset();
-
-        _flipper.addEventListener(TouchEvent.TOUCH, handleTouch);
     }
 
-    private function handleTouch(e: TouchEvent):void {
-        var touch: Touch = e.getTouch(e.currentTarget as Sprite3D, TouchPhase.BEGAN);
-        if (touch) {
-            _flipper.removeEventListener(TouchEvent.TOUCH, handleTouch);
+    private function flip():void {
+        _flipper.back = _stack[0];
+        _flipper.flip();
+        _flipper.addEventListener(Event.COMPLETE, handleFlipComplete);
+    }
 
-            _flipper.back = _stack[0];
-            _flipper.flip();
-            _flipper.addEventListener(Event.COMPLETE, handleFlipComplete);
-        }
+    private function handleTouch(e: Event):void {
+        flip();
     }
 
     private function handleFlipComplete(e: Event):void {

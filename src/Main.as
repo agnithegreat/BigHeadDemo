@@ -4,7 +4,6 @@ import demo.Application;
 import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
-import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DRenderMode;
 import flash.events.Event;
 import flash.geom.Rectangle;
@@ -13,7 +12,7 @@ import flash.system.Capabilities;
 import starling.core.Starling;
 import starling.events.ResizeEvent;
 
-[SWF (frameRate=60, width=384, height=512, backgroundColor=0)]
+[SWF (frameRate=60, width=768, height=1024, backgroundColor=0)]
 public class Main extends Sprite {
 
     private var _starling: Starling;

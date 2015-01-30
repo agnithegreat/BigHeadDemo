@@ -3,15 +3,14 @@
  */
 package demo.view {
 import demo.utils.GUIFactory;
-import demo.utils.view.Screen;
+import demo.utils.components.Screen;
 
-import gui.MainMenuScreen;
-import gui.TeamPlayScreen;
+import gui.TeamPlay;
 
 public class TeamPlayScreen extends Screen {
 
     public function TeamPlayScreen() {
-        GUIFactory.createView(this, new gui.TeamPlayScreen());
+        GUIFactory.createView(this, new TeamPlay());
     }
 }
 }

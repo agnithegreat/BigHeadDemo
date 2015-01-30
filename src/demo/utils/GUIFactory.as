@@ -4,7 +4,10 @@
 package demo.utils {
 import avmplus.getQualifiedClassName;
 
-import demo.utils.view.AbstractView;
+import demo.utils.components.AbstractComponent;
+import demo.utils.components.Button;
+import demo.utils.components.Label;
+import demo.utils.components.Picture;
 
 import flash.display.Bitmap;
 import flash.display.DisplayObject;
@@ -13,9 +16,6 @@ import flash.display.Shape;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-import starling.display.Button;
-import starling.display.Image;
-import starling.text.TextField;
 import starling.utils.AssetManager;
 
 public class GUIFactory {
@@ -26,28 +26,35 @@ public class GUIFactory {
         assetManager = inAssetManager;
     }
 
-    public static function createView(parent: AbstractView, inView: DisplayObjectContainer):AbstractView {
+    public static function createView(parent: AbstractComponent, inView: DisplayObjectContainer):AbstractComponent {
         for (var i:int = 0; i < inView.numChildren; i++) {
             var child: DisplayObject = inView.getChildAt(i);
-            trace(child, child.name);
 
-            var newChild: starling.display.DisplayObject;
+            var newChild: AbstractComponent;
             if (child is Shape) {
                 var shape: Shape = child as Shape;
 //                throw new Error("shape without ");
             } else if (child is Bitmap) {
                 var bitmap:Bitmap = child as Bitmap;
                 var bitmapName:String = getQualifiedClassName(bitmap.bitmapData);
-                newChild = new Image(assetManager.getTexture(bitmapName));
-            } else if (child is flash.text.TextField) {
-                var textField: flash.text.TextField = child as flash.text.TextField;
+                trace(bitmap.bitmapData, bitmapName);
+                newChild = new Picture(assetManager.getTexture(bitmapName));
+            } else if (child is TextField) {
+                var textField: TextField = child as TextField;
                 var textFormat: TextFormat = textField.getTextFormat();
-                newChild = new starling.text.TextField(textField.width, textField.height, textField.text, textFormat.font, int(textFormat.size), int(textFormat.color), textFormat.bold);
+                newChild = new Label(textField.width, textField.height, textField.text, textFormat.font, int(textFormat.size), int(textFormat.color), textFormat.bold);
             } else if (child is DisplayObjectContainer) {
-                newChild = new AbstractView();
-                createView(newChild as AbstractView, child as DisplayObjectContainer);
+                if (child.name.search("btn_") == 0) {
+                    newChild = new Button();
+                } else {
+                    newChild = new AbstractComponent();
+                }
+                newChild.createFromFlash(child as DisplayObjectContainer);
             }
+
+            trace(child, child.name, newChild);
             if (newChild) {
+                newChild.name = child.name;
                 newChild.x = child.x;
                 newChild.y = child.y;
                 parent.addChild(newChild);
@@ -55,13 +62,6 @@ public class GUIFactory {
         }
 
         return parent;
-    }
-
-    public static function createButton(btn: DisplayObjectContainer):Button {
-        var text: String = btn["text"].text;
-
-        var button: Button = new Button(null, text);
-        return button;
     }
 }
 }
