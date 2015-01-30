@@ -43,7 +43,9 @@ public class GUIFactory {
                 newChild = new Picture(Texture.fromBitmapData(bitmapData));
             } else if (child is Bitmap) {
                 var bitmap:Bitmap = child as Bitmap;
-                newChild = new Picture(Texture.fromBitmap(bitmap));
+                bitmapData = new BitmapData(bitmap.width + 2, bitmap.height + 2, true, 0);
+                bitmapData.draw(bitmap, new Matrix(1, 0, 0, 1, 1, 1));
+                newChild = new Picture(Texture.fromBitmapData(bitmapData));
 //                var bitmapName:String = getQualifiedClassName(bitmap.bitmapData);
 //                newChild = new Picture(assetManager.getTexture(bitmapName));
             } else if (child is TextField) {

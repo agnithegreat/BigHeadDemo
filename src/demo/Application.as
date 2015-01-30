@@ -10,9 +10,10 @@ import demo.view.TeamPlayScreen;
 import flash.utils.Dictionary;
 
 import starling.display.Sprite;
+import starling.display.Sprite3D;
 import starling.events.Event;
 
-public class Application extends Sprite {
+public class Application extends Sprite3D {
 
     private var _screens: Dictionary;
 //    private var _assets: AssetManager;
@@ -48,6 +49,9 @@ public class Application extends Sprite {
         _flipper = new Flipper();
         addChild(_flipper);
 
+        rotationX = -Math.PI/30;
+        z = 200;
+
         updatePage();
     }
 
@@ -56,6 +60,10 @@ public class Application extends Sprite {
         _stack.push(page);
         _flipper.front = page;
         _flipper.reset();
+
+        if (page == _screens[TeamPlayScreen]) {
+            flip();
+        }
     }
 
     private function flip():void {
