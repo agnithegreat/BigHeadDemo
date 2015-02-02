@@ -7,7 +7,6 @@ import flash.display.Sprite;
 import flash.filters.GlowFilter;
 
 import starling.animation.Transitions;
-
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Sprite3D;
@@ -15,8 +14,12 @@ import starling.textures.Texture;
 
 public class CellView extends Sprite3D {
 
-    private static var cellTexture: Texture = getTexture();
+    private static var stack: Vector.<CellView> = new <CellView>[];
+    public static function getCell():CellView {
+        return stack.length > 0 ? stack.shift() : new CellView();
+    }
 
+    private static var cellTexture: Texture = getTexture();
     private static function getTexture():Texture {
         var rect: Sprite = new Sprite();
         rect.graphics.lineStyle(2, 0x00FF00);
@@ -33,13 +36,15 @@ public class CellView extends Sprite3D {
 
     private var _cell: Image;
 
-    public function CellView(x: int, y: int) {
+    public function CellView() {
         _cell = new Image(cellTexture);
+        _cell.alpha = 0.99;
+        addChild(_cell);
+    }
+
+    public function place(x: int, y: int):void {
         _cell.x = x * 100;
         _cell.y = y * 100;
-        addChild(_cell);
-
-        alpha = 0.99;
     }
 
     public function animateAppear():void {
@@ -54,10 +59,9 @@ public class CellView extends Sprite3D {
     }
 
     public function destroy():void {
-        removeChild(_cell, true);
-        _cell = null;
+        removeFromParent();
 
-        removeFromParent(true);
+        stack.push(this);
     }
 }
 }

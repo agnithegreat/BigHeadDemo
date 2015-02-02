@@ -57,7 +57,8 @@ public class PerspectiveView extends Sprite3D implements IAnimatable {
     private function addRow(animate: Boolean = false):void {
         for (var i:int = 0; i < 6; i++) {
             if (Math.random() < 0.8) {
-                var cell: CellView = new CellView(i, _row);
+                var cell: CellView = CellView.getCell();
+                cell.place(i, _row);
                 _dict[i+"."+_row] = cell;
                 _field.addChild(cell);
 
