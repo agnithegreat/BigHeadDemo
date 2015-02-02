@@ -6,6 +6,8 @@ import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.filters.GlowFilter;
 
+import starling.animation.Transitions;
+
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Sprite3D;
@@ -44,11 +46,11 @@ public class CellView extends Sprite3D {
         alpha = 0;
         z = -200;
 
-        Starling.juggler.tween(this, 0.5, {z: 0, alpha: 0.99});
+        Starling.juggler.tween(this, 0.5, {z: 0, alpha: 0.99, transition: Transitions.EASE_OUT});
     }
 
     public function animateRemove():void {
-        Starling.juggler.tween(this, 0.5, {z: 200, alpha: 0, onComplete: destroy});
+        Starling.juggler.tween(this, 0.5, {z: 200, alpha: 0, transition: Transitions.EASE_IN, onComplete: destroy});
     }
 
     public function destroy():void {

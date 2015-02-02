@@ -22,7 +22,7 @@ public class PerspectiveView extends Sprite3D implements IAnimatable {
         _field = new Sprite3D();
         _field.pivotX = 300;
         _field.x = 300;
-        _field.rotationX = 1;
+        _field.rotationX = Math.PI/4;
         addChild(_field);
 
         init();
