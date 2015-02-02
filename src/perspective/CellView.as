@@ -22,7 +22,7 @@ public class CellView extends Sprite3D {
     private static var cellTexture: Texture = getTexture();
     private static function getTexture():Texture {
         var rect: Sprite = new Sprite();
-        rect.graphics.lineStyle(2, 0x00FF00);
+        rect.graphics.lineStyle(2, 0xFFFFFF);
         rect.graphics.drawRoundRect(5, 5, 90, 90, 20, 20);
         rect.filters = [new GlowFilter(0xFFFFFF, 0.3, 3, 3, 3, 3)];
 
@@ -43,19 +43,19 @@ public class CellView extends Sprite3D {
     }
 
     public function place(x: int, y: int):void {
-        _cell.x = x * 100;
-        _cell.y = y * 100;
+        this.x = x * 100;
+        this.y = y * 100;
     }
 
     public function animateAppear():void {
         alpha = 0;
         z = -200;
 
-        Starling.juggler.tween(this, 0.5, {z: 0, alpha: 0.99, transition: Transitions.EASE_OUT});
+        Starling.juggler.tween(this, 0.3, {z: 0, alpha: 0.99, transition: Transitions.EASE_OUT});
     }
 
     public function animateRemove():void {
-        Starling.juggler.tween(this, 0.5, {z: 200, alpha: 0, transition: Transitions.EASE_IN, onComplete: destroy});
+        Starling.juggler.tween(this, 0.3, {z: 200, alpha: 0, transition: Transitions.EASE_IN, onComplete: destroy});
     }
 
     public function destroy():void {
