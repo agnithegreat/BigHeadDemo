@@ -9,7 +9,9 @@ import demo.view.TeamPlayScreen;
 
 import flash.utils.Dictionary;
 
-import starling.display.Sprite;
+import perspective.PerspectiveView;
+
+import starling.core.Starling;
 import starling.display.Sprite3D;
 import starling.events.Event;
 
@@ -33,7 +35,8 @@ public class Application extends Sprite3D {
 //            }
 //        });
 
-        ready();
+        testPerspective();
+//        ready();
     }
 
     private function ready():void {
@@ -80,6 +83,18 @@ public class Application extends Sprite3D {
         _flipper.removeEventListener(Event.COMPLETE, handleFlipComplete);
 
         updatePage();
+    }
+
+
+
+
+    private function testPerspective():void {
+        var perspectiveView: PerspectiveView = new PerspectiveView();
+        perspectiveView.scaleY = -1;
+        perspectiveView.y = 600;
+        addChild(perspectiveView);
+
+        Starling.juggler.add(perspectiveView);
     }
 }
 }

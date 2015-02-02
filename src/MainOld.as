@@ -12,12 +12,12 @@ import flash.system.Capabilities;
 import starling.core.Starling;
 import starling.events.ResizeEvent;
 
-[SWF (frameRate=60, width=600, height=800, backgroundColor=0)]
-public class Main extends Sprite {
+[SWF (frameRate=60, width=768, height=1024, backgroundColor=0)]
+public class MainOld extends Sprite {
 
     private var _starling: Starling;
 
-    public function Main() {
+    public function MainOld() {
         addEventListener(Event.ADDED_TO_STAGE, handleAddedToStage);
     }
 
@@ -31,7 +31,7 @@ public class Main extends Sprite {
         var android: Boolean = (Capabilities.version.toLowerCase().indexOf("and") > -1);
         var mobile: Boolean = ios || android;
 
-        var art: Rectangle = new Rectangle(0, 0, 600, 800);
+        var art: Rectangle = new Rectangle(0, 0, 768, 1024);
 
         var viewport: Rectangle = mobile ? new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight) : new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
 
