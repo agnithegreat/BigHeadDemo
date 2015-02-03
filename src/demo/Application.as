@@ -92,6 +92,7 @@ public class Application extends Sprite3D {
         var perspectiveView: PerspectiveView = new PerspectiveView();
         perspectiveView.scaleY = -1;
         perspectiveView.y = 600;
+        perspectiveView.rotationX = -Math.PI/4;
         addChild(perspectiveView);
 
         Starling.juggler.add(perspectiveView);
