@@ -13,7 +13,7 @@ import starling.events.TouchPhase;
 
 public class PerspectiveView extends Sprite3D implements IAnimatable {
 
-    public static const VISIBLE_ROWS: int = 20;
+    public static const VISIBLE_ROWS: int = 10;
 
     private var _field: Sprite3D;
     private var _dict: Dictionary;
@@ -50,13 +50,13 @@ public class PerspectiveView extends Sprite3D implements IAnimatable {
 
         for (var i:int = 0; i < VISIBLE_ROWS; i++) {
             for (var j:int = 0; j < VISIBLE_ROWS; j++) {
-                if (Math.random() < 0.8) {
+//                if (Math.random() < 0.8) {
                     var cx: int = i-VISIBLE_ROWS/2;
                     var cy: int = j-VISIBLE_ROWS/2;
                     var cell: CellView = CellView.getCell();
                     cell.place(cx, cy);
                     _field.addChild(cell);
-                }
+//                }
             }
         }
 
