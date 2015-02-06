@@ -16,15 +16,18 @@ import starling.textures.Texture;
 
 public class CellView extends Sprite3D {
 
-    public static var size: int = 50;
+    public static var size: int = 128;
+    public static var sizeMultiplier: Number = 1;
 
     private static var stack: Vector.<CellView> = new <CellView>[];
-    public static function getCell():CellView {
-        return stack.length > 0 ? stack.shift() : new CellView();
+    public static function getCell(texture: Texture):CellView {
+        return stack.length > 0 ? stack.shift() : new CellView(texture);
     }
 
     private static var cellTexture: Texture = getTexture();
     private static function getTexture():Texture {
+        size *= sizeMultiplier;
+
         var rect: Sprite = new Sprite();
         rect.graphics.lineStyle(2, 0xFFFFFF);
         rect.graphics.drawRoundRect(size*0.05, size*0.05, size*0.9, size*0.9, size*0.5);
@@ -33,6 +36,8 @@ public class CellView extends Sprite3D {
         var bitmapData: BitmapData = new BitmapData(size, size, true, 0);
         bitmapData.draw(rect);
 
+        size /= sizeMultiplier;
+
         return Texture.fromBitmapData(bitmapData);
     }
 
@@ -40,8 +45,10 @@ public class CellView extends Sprite3D {
 
     private var _cell: Image;
 
-    public function CellView() {
-        _cell = new Image(cellTexture);
+    public function CellView(texture: Texture) {
+        _cell = new Image(texture);
+        _cell.scaleX = 1/sizeMultiplier;
+        _cell.scaleY = 1/sizeMultiplier;
         _cell.alpha = 0.99;
         addChild(_cell);
     }

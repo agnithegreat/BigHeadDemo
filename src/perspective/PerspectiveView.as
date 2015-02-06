@@ -5,15 +5,15 @@ package perspective {
 import flash.utils.Dictionary;
 
 import starling.animation.IAnimatable;
-import starling.display.DisplayObject;
+import starling.core.Starling;
 import starling.display.Sprite3D;
-import starling.events.Touch;
-import starling.events.TouchEvent;
-import starling.events.TouchPhase;
+import starling.textures.Texture;
 
 public class PerspectiveView extends Sprite3D implements IAnimatable {
 
-    public static const VISIBLE_ROWS: int = 10;
+    public static const VISIBLE_ROWS: int = 24;
+
+    private var _cellTexture: Texture;
 
     private var _field: Sprite3D;
     private var _dict: Dictionary;
@@ -22,7 +22,9 @@ public class PerspectiveView extends Sprite3D implements IAnimatable {
     private var _row: int;
     private var _oldest: int;
 
-    public function PerspectiveView() {
+    public function PerspectiveView(texture: Texture) {
+        _cellTexture = texture;
+
         _field = new Sprite3D();
         _field.x = 300;
         addChild(_field);
@@ -48,30 +50,29 @@ public class PerspectiveView extends Sprite3D implements IAnimatable {
         _oldest = 0;
         _offset = 0;
 
+        _dict = new Dictionary();
+
         for (var i:int = 0; i < VISIBLE_ROWS; i++) {
             for (var j:int = 0; j < VISIBLE_ROWS; j++) {
 //                if (Math.random() < 0.8) {
                     var cx: int = i-VISIBLE_ROWS/2;
                     var cy: int = j-VISIBLE_ROWS/2;
-                    var cell: CellView = CellView.getCell();
+                    var cell: CellView = CellView.getCell(_cellTexture);
                     cell.place(cx, cy);
+                    _dict[cx+"."+cy] = cell;
                     _field.addChild(cell);
 //                }
             }
         }
 
-        _field.addEventListener(TouchEvent.TOUCH, handleTouch);
+        Starling.juggler.delayCall(fallField, 2);
     }
 
-    private function handleTouch(e: TouchEvent):void {
-        var touch: Touch = e.getTouch(_field, TouchPhase.MOVED);
-        if (touch) {
-            var cell: CellView = _field.hitTest(touch.getLocation(_field), true) as CellView;
-            if (cell) {
-                cell.animateRemove();
-
-
-            }
+    private function fallField():void {
+        var rands: Array = [0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.7, 3];
+        for each (var cell:CellView in _dict) {
+            var rand: int = Math.random() * rands.length;
+            Starling.juggler.delayCall(cell.animateRemove, rands[rand]);
         }
     }
 
@@ -95,7 +96,7 @@ public class PerspectiveView extends Sprite3D implements IAnimatable {
     private function addRow(animate: Boolean = false):void {
         for (var i:int = -3; i < 3; i++) {
             if (Math.random() < 0.8) {
-                var cell: CellView = CellView.getCell();
+                var cell: CellView = CellView.getCell(_cellTexture);
                 cell.place(i, _row);
                 _dict[i+"."+_row] = cell;
                 _field.addChild(cell);
